@@ -115,6 +115,8 @@ public class MainActivity extends Activity {
             Utils.createResFile(getBaseContext(),R.raw.atou_pl,"AppToUsb.bin",false);
             Utils.createResFile(getBaseContext(),R.raw.mira_pl,"MiraFW_Orbis.bin",false);
             Utils.createResFile(getBaseContext(),R.raw.cache_pl,"Cache_Install.bin",false);
+            Utils.createResFile(getBaseContext(),R.raw.hb_pl,"History_Blocker.bin",false);
+            Utils.createResFile(getBaseContext(),R.raw.kd_pl,"KernelDumper.bin",false);
             Utils.SaveSetting(getBaseContext(),"PAYLOAD",Environment.getExternalStorageDirectory().toString() + "/PS4_50X_Payloads/ps4-hen-vtx.bin");
             Utils.SaveSetting(getBaseContext(),"LOADED","ps4-hen-vtx");
             Utils.SaveSetting(getBaseContext(),"VERSION",BuildConfig.VERSION_CODE);
@@ -136,6 +138,8 @@ public class MainActivity extends Activity {
                 Utils.createResFile(getBaseContext(),R.raw.atou_pl,"AppToUsb.bin",false);
                 Utils.createResFile(getBaseContext(),R.raw.mira_pl,"MiraFW_Orbis.bin",false);
                 Utils.createResFile(getBaseContext(),R.raw.cache_pl,"Cache_Install.bin",false);
+                Utils.createResFile(getBaseContext(),R.raw.hb_pl,"History_Blocker.bin",false);
+                Utils.createResFile(getBaseContext(),R.raw.kd_pl,"KernelDumper.bin",false);
                 Utils.showToast(MainActivity.this,getBaseContext(),"Updated payloads", Utils.Info);
             }
         }
