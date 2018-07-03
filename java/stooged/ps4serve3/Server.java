@@ -65,11 +65,16 @@ public class Server extends NanoHTTPD {
         if (uri.indexOf('?') >= 0) {
             uri = uri.substring(0, uri.indexOf('?'));
         }
-
         File f = new File(Utils.getDataDir(wContext) + uri);
         if (uri.toLowerCase().contains(f.getName().toLowerCase()))
         {
             if (f.getName().toLowerCase().equals("index.html")) {
+                if (Utils.GetSetting(wContext,"PAYLOAD", Environment.getExternalStorageDirectory().toString() + "/PS4_50X_Payloads/ps4-hen-vtx.bin").toLowerCase().endsWith(".html"))
+                {
+                    File fh= new File(Utils.GetSetting(wContext,"PAYLOAD", Environment.getExternalStorageDirectory().toString() + "/PS4_50X_Payloads/ps4-hen-vtx.bin"));
+                    showToast("Payload sent", Utils.Success);
+                    return serveFile(f.getName(), headers, fh);
+                }
                 isWaiting = false;
                 stoptimertask();
                 remoteIP = session.getRemoteIpAddress();

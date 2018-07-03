@@ -114,7 +114,7 @@ public class MainActivity extends Activity {
             Utils.createResFile(getBaseContext(),R.raw.backup_pl,"DB_SG_Backup.bin",false);
             Utils.createResFile(getBaseContext(),R.raw.atou_pl,"AppToUsb.bin",false);
             Utils.createResFile(getBaseContext(),R.raw.mira_pl,"MiraFW_Orbis.bin",false);
-            Utils.createResFile(getBaseContext(),R.raw.cache_pl,"Cache_Install.bin",false);
+            Utils.createResFile(getBaseContext(),R.raw.cache_pl,"Cache_Install.html",false);
             Utils.createResFile(getBaseContext(),R.raw.hb_pl,"History_Blocker.bin",false);
             Utils.createResFile(getBaseContext(),R.raw.kd_pl,"KernelDumper.bin",false);
             Utils.SaveSetting(getBaseContext(),"PAYLOAD",Environment.getExternalStorageDirectory().toString() + "/PS4_50X_Payloads/ps4-hen-vtx.bin");
@@ -137,13 +137,19 @@ public class MainActivity extends Activity {
                 Utils.createResFile(getBaseContext(),R.raw.backup_pl,"DB_SG_Backup.bin",false);
                 Utils.createResFile(getBaseContext(),R.raw.atou_pl,"AppToUsb.bin",false);
                 Utils.createResFile(getBaseContext(),R.raw.mira_pl,"MiraFW_Orbis.bin",false);
-                Utils.createResFile(getBaseContext(),R.raw.cache_pl,"Cache_Install.bin",false);
+                Utils.createResFile(getBaseContext(),R.raw.cache_pl,"Cache_Install.html",false);
                 Utils.createResFile(getBaseContext(),R.raw.hb_pl,"History_Blocker.bin",false);
                 Utils.createResFile(getBaseContext(),R.raw.kd_pl,"KernelDumper.bin",false);
                 Utils.showToast(MainActivity.this,getBaseContext(),"Updated payloads", Utils.Info);
             }
         }
                 Utils.createResFile(MainActivity.this,R.raw.index_html,"index.html",true);
+                File f = new File(Environment.getExternalStorageDirectory().toString() + "/PS4_50X_Payloads/Cache_Install.bin");
+                if(f.exists())
+                {
+                    f.delete();
+                    Utils.createResFile(getBaseContext(),R.raw.cache_pl,"Cache_Install.html",false);
+                }
             }
         }).start();
         loadPayloadList();
@@ -186,7 +192,12 @@ public class MainActivity extends Activity {
                         if (files.get(i).getName().endsWith("/") || files.get(i).getName().endsWith("\\")) {
                             sFiles[i].label = files.get(i).getName().substring(0, files.get(i).getName().length() - 1);
                         } else {
-                            sFiles[i].label = files.get(i).getName().substring(0,files.get(i).getName().length()- 4);
+                            int extlen = 4;
+                            if (files.get(i).getName().toLowerCase().endsWith(".html"))
+                            {
+                                extlen = 5;
+                            }
+                            sFiles[i].label = files.get(i).getName().substring(0,files.get(i).getName().length()- extlen);
                         }
                         sFiles[i].name = files.get(i).getPath();
                         sFiles[i].lFile = files.get(i);
@@ -210,9 +221,14 @@ public class MainActivity extends Activity {
                     File selFile = new File(FileUrl.getText().toString());
                     if (!selFile.isDirectory()) {
                         Utils.SaveSetting(getBaseContext(),"PAYLOAD",selFile.getPath());
-                        Utils.showToast(MainActivity.this,MainActivity.this,"Selected: " + selFile.getName().substring(0,selFile.getName().length()- 4), Utils.Info);
-                        text2.setText(selFile.getName().substring(0,selFile.getName().length()- 4));
-                        Utils.SaveSetting(getBaseContext(),"LOADED",selFile.getName().substring(0,selFile.getName().length()- 4));
+                        int extlen = 4;
+                        if (selFile.getName().toLowerCase().endsWith(".html"))
+                        {
+                            extlen = 5;
+                        }
+                        Utils.showToast(MainActivity.this,MainActivity.this,"Selected: " + selFile.getName().substring(0,selFile.getName().length()- extlen), Utils.Info);
+                        text2.setText(selFile.getName().substring(0,selFile.getName().length()- extlen));
+                        Utils.SaveSetting(getBaseContext(),"LOADED",selFile.getName().substring(0,selFile.getName().length()- extlen));
                         Utils.createResFile(MainActivity.this,R.raw.index_html,"index.html",true);
                     }
                 }
@@ -236,7 +252,7 @@ public class MainActivity extends Activity {
         for(File file: file_list) {
             if (file.isDirectory()) {
             }else{
-                if (file.getName().toLowerCase().endsWith(".bin")) {
+                if (file.getName().toLowerCase().endsWith(".bin") || file.getName().toLowerCase().endsWith(".html")) {
                     files.add(file);
                 }
             }
